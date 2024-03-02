@@ -11,6 +11,12 @@ PHPDoc API documentation is also available at [http://duncan3dc.github.io/sonos/
 [![coverage](https://codecov.io/gh/duncan3dc/sonos/graph/badge.svg)](https://codecov.io/gh/duncan3dc/sonos)
 
 
+Fork Upgrades
+--------------
+- upgraded to `guzzlehttp/guzzle@^7.0`
+- upgraded to `league/flysystem@^3.15`
+
+
 Quick Examples
 --------------
 

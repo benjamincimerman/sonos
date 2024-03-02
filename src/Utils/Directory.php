@@ -3,9 +3,10 @@
 namespace duncan3dc\Sonos\Utils;
 
 use duncan3dc\Sonos\Interfaces\Utils\DirectoryInterface;
-use League\Flysystem\Adapter\Local;
+use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 
 /**
  * Represents a shared directory.
@@ -13,7 +14,7 @@ use League\Flysystem\FilesystemInterface;
 final class Directory implements DirectoryInterface
 {
     /**
-     * @var FilesystemInterface $filesystem The full path to the share on the local filesystem.
+     * @var FilesystemAdapter $filesystem The full path to the share on the local filesystem.
      */
     private $filesystem;
 
@@ -31,7 +32,7 @@ final class Directory implements DirectoryInterface
     /**
      * Create a Directory instance to represent a file share.
      *
-     * @param FilesystemInterface|string $filesystem The full path to the share on the local filesystem.
+     * @param FilesystemAdapter|string $filesystem The full path to the share on the local filesystem.
      * @param string $share The full path to the share (including the hostname).
      * @param string $directory The name of the directory (to be appended to both $filesystem and $share).
      */
@@ -39,14 +40,14 @@ final class Directory implements DirectoryInterface
     {
         # If a string was passed then convert it to a Filesystem instance
         if (is_string($filesystem)) {
-            $adapter = new Local($filesystem);
+            $adapter = new LocalFilesystemAdapter($filesystem);
             $filesystem = new Filesystem($adapter);
         }
 
         # Ensure we got a Filesystem instance
-        if (!$filesystem instanceof FilesystemInterface) {
+        if (!$filesystem instanceof FilesystemAdapter) {
             $error = "Invalid filesystem,";
-            $error .= " must be an instance of " . FilesystemInterface::class;
+            $error .= " must be an instance of " . FilesystemAdapter::class;
             $error .= " or a string containing a local path";
             throw new \InvalidArgumentException($error);
         }
@@ -77,7 +78,7 @@ final class Directory implements DirectoryInterface
      */
     public function has(string $file): bool
     {
-        return $this->filesystem->has("{$this->directory}/{$file}");
+        return $this->filesystem->fileExists("{$this->directory}/{$file}");
     }
 
 
@@ -91,7 +92,8 @@ final class Directory implements DirectoryInterface
      */
     public function write(string $file, string $contents): DirectoryInterface
     {
-        $this->filesystem->write("{$this->directory}/{$file}", $contents);
+        $config = new Config();
+        $this->filesystem->write("{$this->directory}/{$file}", $contents, $config);
 
         return $this;
     }
