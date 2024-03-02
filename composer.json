@@ -50,5 +50,7 @@
             "vendor/bin/phpstan analyse --level=max --configuration=phpstan-tests.neon tests",
             "vendor/bin/phpcs"
         ]
-    }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
