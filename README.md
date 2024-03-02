@@ -15,6 +15,7 @@ Fork Upgrades
 --------------
 - upgraded to `guzzlehttp/guzzle@^7.0`
 - upgraded to `league/flysystem@^3.15`
+- upgraded to `psr/log@^1.1 || ^2 || ^3`
 
 
 Quick Examples
