@@ -49,11 +49,10 @@ final class Collection implements CollectionInterface
      *
      * @return $this
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
         $this->factory->setLogger($logger);
-        return $this;
     }
 
 
