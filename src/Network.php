@@ -64,11 +64,9 @@ final class Network implements NetworkInterface, LoggerAwareInterface
      *
      * @return $this
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->collection->setLogger($logger);
-
-        return $this;
     }
 
 
