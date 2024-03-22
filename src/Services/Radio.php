@@ -16,7 +16,7 @@ final class Radio implements RadioInterface
     /**
      * @var int The key for station types.
      */
-    private const STATIONS = 0;
+    private const STATIONS = 2;
 
     /**
      * @var int The key for show types.
@@ -49,12 +49,22 @@ final class Radio implements RadioInterface
      */
     protected function getFavourites(int $type): array
     {
+        // https://sonos.svrooij.io/services/content-directory
+        // Available actions:
+        // - Music library (A)
+        // - share(S:)
+        // - Sonos playlists(SQ:)
+        // - Sonos favorites(FV:2)
+        // - radio stations(R:0/0)
+        // - radio shows(R:0/1)
+        // - queue(Q:)
+
         $items = [];
 
         $result = $this->controller->soap("ContentDirectory", "Browse", [
-            "ObjectID"          =>  "R:0/{$type}",
+            "ObjectID"          =>  "FV/{$type}",
             "BrowseFlag"        =>  "BrowseDirectChildren",
-            "Filter"            =>  "*",
+            "Filter"            =>  "",
             "StartingIndex"     =>  0,
             "RequestedCount"    =>  100,
             "SortCriteria"      =>  "",
