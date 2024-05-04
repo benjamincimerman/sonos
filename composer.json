@@ -1,6 +1,6 @@
 {
     "name": "duncan3dc/sonos",
-    "version": "2.2.4",
+    "version": "2.2.5",
     "type": "library",
     "description": "Control Sonos speakers using a simple API",
     "keywords": ["sonos","upnp","streaming"],
