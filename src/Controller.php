@@ -116,9 +116,13 @@ final class Controller implements ControllerInterface
 
         if ((string) $parser->getTag("streamContent")) {
             $info = $this->getMediaInfo();
-            $meta = new XmlParser($info["CurrentURIMetaData"]);
-            if ($title = (string) $meta->getTag("title")) {
-                $state->setStream(new Stream("", $title));
+            if (array_key_exists("CurrentURIMetaData", $info) && $info["CurrentURIMetaData"]) {
+                $meta = new XmlParser($info["CurrentURIMetaData"]);
+                if ($title = (string) $meta->getTag("title")) {
+                    $state->setStream(new Stream("", $title));
+                } else {
+                    $state->setStream(new Stream("", $parser->getTag("title")));
+                }
             } else {
                 $state->setStream(new Stream("", $parser->getTag("title")));
             }
